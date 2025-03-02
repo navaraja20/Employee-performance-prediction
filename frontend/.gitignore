@@ -1,0 +1,25 @@
+# Ignore Python cache & compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Conda virtual environment
+env/
+venv/
+*.conda
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore log files
+*.log
+
+# Ignore dataset files
+data/
+*.csv
+*.json
+
+# Ignore system files (Mac & Windows)
+.DS_Store
+Thumbs.db
