@@ -26,6 +26,7 @@ class EmployeeData(BaseModel):
     job_role: str
     department: str
     business_travel: str
+    years_at_company: int
     total_working_years: int
     years_in_current_role: int
     years_since_last_promotion: int
