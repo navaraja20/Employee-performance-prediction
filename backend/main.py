@@ -21,7 +21,6 @@ past_predictions = []
 # Define the request data model
 class EmployeeData(BaseModel):
     age: int
-    gender: str
     marital_status: str
     job_role: str
     department: str
