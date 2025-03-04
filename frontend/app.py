@@ -1,4 +1,8 @@
 import streamlit as st
+import requests
+
+# FastAPI backend URL
+FASTAPI_URL = "http://localhost:8000"
 
 # Title
 st.title("Employee Performance Prediction")
@@ -6,6 +10,7 @@ st.title("Employee Performance Prediction")
 # Sidebar navigation
 page = st.sidebar.selectbox("Select Page", ["Predict", "Past Predictions"])
 
+# ------------------- PREDICTION PAGE -------------------
 if page == "Predict":
     st.header("Enter Employee Details")
 
@@ -47,4 +52,51 @@ if page == "Predict":
 
     # Submit Button
     if st.button("Predict"):
-        st.success("Prediction Sent! (Backend API Needed)")
+        # Prepare request payload
+        data = {
+            "age": age,
+            "gender": gender,
+            "marital_status": marital_status,
+            "job_role": job_role,
+            "department": department,
+            "business_travel": business_travel,
+            "years_at_company": years_at_company,
+            "total_working_years": total_working_years,
+            "years_in_current_role": years_in_current_role,
+            "years_since_last_promotion": years_since_last_promotion,
+            "monthly_income": monthly_income,
+            "hourly_rate": hourly_rate,
+            "stock_option_level": stock_option_level,
+            "percent_salary_hike": percent_salary_hike,
+            "job_satisfaction": job_satisfaction,
+            "work_life_balance": work_life_balance,
+            "job_involvement": job_involvement,
+            "environment_satisfaction": environment_satisfaction,
+            "performance_rating": performance_rating,
+            "overtime": overtime
+        }
+
+        # Send POST request to FastAPI
+        response = requests.post(f"{FASTAPI_URL}/predict", json=data)
+
+        if response.status_code == 200:
+            result = response.json()
+            st.success(f"Predicted Performance Score: {result['performance_score']}")
+        else:
+            st.error("Error: Could not fetch prediction. Please try again.")
+
+# ------------------- PAST PREDICTIONS PAGE -------------------
+elif page == "Past Predictions":
+    st.header("Past Predictions")
+
+    # Fetch past predictions from FastAPI
+    response = requests.get(f"{FASTAPI_URL}/past-predictions")
+
+    if response.status_code == 200:
+        predictions = response.json()
+        if predictions:
+            st.write(predictions)
+        else:
+            st.warning("No past predictions found.")
+    else:
+        st.error("Error fetching past predictions. Please try again.")

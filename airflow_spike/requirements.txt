@@ -1,0 +1,25 @@
+# FastAPI dependencies
+fastapi
+uvicorn
+
+# PostgreSQL Database ORM
+sqlalchemy
+psycopg2
+
+# Machine Learning & Data Processing
+pandas
+numpy
+scikit-learn
+
+# Airflow (Pinning version for stability)
+apache-airflow==2.6.3
+apache-airflow-providers-postgres
+apache-airflow-providers-http
+
+# Great Expectations for data validation
+great-expectations
+
+# Miscellaneous utilities
+python-dotenv
+
+pendulum==2.1.2
