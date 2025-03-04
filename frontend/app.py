@@ -65,7 +65,6 @@ if page == "Predict":
             "years_in_current_role": years_in_current_role,
             "years_since_last_promotion": years_since_last_promotion,
             "monthly_income": monthly_income,
-            "hourly_rate": hourly_rate,
             "stock_option_level": stock_option_level,
             "percent_salary_hike": percent_salary_hike,
             "job_satisfaction": job_satisfaction,
