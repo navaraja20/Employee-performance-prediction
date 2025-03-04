@@ -49,6 +49,8 @@ if page == "Predict":
     st.subheader("Performance & Attrition")
     performance_rating = st.selectbox("Performance Rating", [1, 2, 3, 4, 5])
     overtime = st.selectbox("OverTime", ["Yes", "No"])
+    
+    
 
     # Submit Button
     if st.button("Predict"):
