@@ -9,3 +9,6 @@ notebook
 great-expectations
 scikit-learn
 python-multipart
+numpy
+pandas
+pytest
