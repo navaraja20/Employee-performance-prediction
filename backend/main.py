@@ -1,25 +1,46 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
-from typing import List
-from fastapi.middleware.cors import CORSMiddleware
-import random
+from sqlalchemy import create_engine, Column, Integer, String, Float
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Session
+import os
 
-app = FastAPI()
+# Database configuration
+DATABASE_URL = "postgresql+psycopg2://user:password@localhost:5432/employee_db"
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-# Allow frontend (Streamlit) to access the API
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Change this to the frontend URL if deployed
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# Database model
+class EmployeePrediction(Base):
+    __tablename__ = "employee_predictions"
+    id = Column(Integer, primary_key=True, index=True)
+    age = Column(Integer)
+    gender = Column(String)
+    marital_status = Column(String)
+    job_role = Column(String)
+    department = Column(String)
+    business_travel = Column(String)
+    years_at_company = Column(Integer)
+    total_working_years = Column(Integer)
+    years_in_current_role = Column(Integer)
+    years_since_last_promotion = Column(Integer)
+    monthly_income = Column(Float)
+    hourly_rate = Column(Float)
+    stock_option_level = Column(Integer)
+    percent_salary_hike = Column(Integer)
+    job_satisfaction = Column(Integer)
+    work_life_balance = Column(Integer)
+    job_involvement = Column(Integer)
+    environment_satisfaction = Column(Integer)
+    performance_rating = Column(Integer)
+    overtime = Column(String)
+    performance_score = Column(Float)
 
-# Database simulation (Replace with actual PostgreSQL connection later)
-past_predictions = []
+Base.metadata.create_all(bind=engine)
 
-# Define the request data model
-class EmployeeData(BaseModel):
+# Pydantic model for API requests
+class EmployeeInput(BaseModel):
     age: int
     gender: str
     marital_status: str
@@ -41,30 +62,32 @@ class EmployeeData(BaseModel):
     performance_rating: int
     overtime: str
 
-# Dummy prediction function (Replace with ML model later)
-def predict_performance(data: EmployeeData):
-    return round(random.uniform(1, 5), 2)  # Simulated performance score between 1 and 5
+# FastAPI app
+app = FastAPI()
 
-# Prediction endpoint
-@app.post("/predict")
-def predict(data: EmployeeData):
+def get_db():
+    db = SessionLocal()
     try:
-        # Get prediction from the ML model (or dummy function for now)
-        performance_score = predict_performance(data)
+        yield db
+    finally:
+        db.close()
 
-        # Save prediction to the database (simulated)
-        prediction_record = {
-            "employee_data": data.dict(),
-            "performance_score": performance_score
-        }
-        past_predictions.append(prediction_record)
+@app.post("/predict")
+def predict_performance(employee: EmployeeInput, db: Session = Depends(get_db)):
+    # Dummy prediction logic (replace with actual model later)
+    performance_score = (employee.job_satisfaction + employee.work_life_balance) * 10
 
-        return {"performance_score": performance_score}
+    # Save prediction to database
+    prediction = EmployeePrediction(
+        **employee.dict(), performance_score=performance_score
+    )
+    db.add(prediction)
+    db.commit()
+    db.refresh(prediction)
+    
+    return {"performance_score": performance_score}
 
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-# Retrieve past predictions
 @app.get("/past-predictions")
-def get_past_predictions():
-    return past_predictions
+def get_past_predictions(db: Session = Depends(get_db)):
+    predictions = db.query(EmployeePrediction).all()
+    return predictions
