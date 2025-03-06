@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+
+  # ========================== PostgreSQL Database ==========================
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: employee_performance
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql  # ✅ Auto-run SQL script
+      - postgres_data:/var/lib/postgresql/data  # ✅ Persistent storage
+    ports:
+      - "5432:5432"
+
+  # ========================== FastAPI Backend ==========================
+  backend:
+    build: ./backend
+    container_name: fastapi_backend
+    restart: always
+    depends_on:
+      - db  # ✅ Waits for PostgreSQL to be ready
+    environment:
+      DATABASE_URL: postgresql://myuser:mypassword@db:5432/employee_performance
+    ports:
+      - "8000:8000"
+
+  # ========================== Streamlit Frontend ==========================
+  frontend:
+    build: ./streamlit
+    container_name: streamlit_frontend
+    restart: always
+    depends_on:
+      - backend  # ✅ Waits for FastAPI to be ready
+    ports:
+      - "8501:8501"
+
+  # ========================== Airflow Scheduler & Webserver ==========================
+  airflow:
+    build: ./airflow
+    container_name: airflow_service
+    restart: always
+    depends_on:
+      - db
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://myuser:mypassword@db:5432/employee_performance
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags  # DAGs
+      - ./airflow/logs:/opt/airflow/logs  # Logs
+      - ./airflow/plugins:/opt/airflow/plugins  # Plugins
+
+volumes:
+  postgres_data:
