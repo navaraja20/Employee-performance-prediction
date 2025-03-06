@@ -1,8 +1,10 @@
 import streamlit as st
 import requests
+import os
 
 # FastAPI backend URL
-FASTAPI_URL = "http://localhost:8000"
+
+API_URL = "http://backend:8000"
 
 # Title
 st.title("Employee Performance Prediction")
@@ -77,7 +79,7 @@ if page == "Predict":
         }
 
         # Send POST request to FastAPI
-        response = requests.post(f"{FASTAPI_URL}/predict", json=data)
+        response = requests.post(f"{API_URL}/predict", json=data)
 
         if response.status_code == 200:
             result = response.json()
@@ -90,7 +92,7 @@ elif page == "Past Predictions":
     st.header("Past Predictions")
 
     # Fetch past predictions from FastAPI
-    response = requests.get(f"{FASTAPI_URL}/past-predictions")
+    response = requests.get(f"{API_URL}/past-predictions")
 
     if response.status_code == 200:
         predictions = response.json()

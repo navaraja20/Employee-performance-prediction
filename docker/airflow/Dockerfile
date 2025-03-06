@@ -1,20 +1,22 @@
-# Use official Apache Airflow image
-FROM apache/airflow:2.5.1
+FROM apache/airflow:2.5.0
 
-# Set Airflow environment
-ENV AIRFLOW_HOME=/opt/airflow
+USER root
 
-# Install additional dependencies
-RUN pip install --no-cache-dir apache-airflow-providers-postgres
+# Install additional dependencies if needed
+RUN pip install psycopg2-binary
 
-# Copy DAGs
-COPY ../airflow/dags /opt/airflow/dags
+# Set the working directory
+WORKDIR /opt/airflow
 
-# Set working directory
-WORKDIR $AIRFLOW_HOME
+# Copy DAGs and requirements
+COPY airflow/dags /opt/airflow/dags
+COPY airflow/requirements.txt /opt/airflow/requirements.txt
 
-# Expose Airflow ports
+# Install dependencies
+RUN pip install --no-cache-dir -r /opt/airflow/requirements.txt
+
+# Expose Airflow webserver port
 EXPOSE 8080
 
-# Run Airflow webserver
-CMD ["airflow", "webserver"]
+# Set entry point
+ENTRYPOINT ["/entrypoint.sh"]

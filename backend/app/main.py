@@ -6,7 +6,8 @@ from sqlalchemy.orm import sessionmaker, Session
 import os
 
 # Database configuration
-DATABASE_URL = "postgresql+psycopg2://user:password@localhost:5432/employee_db"
+DATABASE_URL = f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@postgres:5432/{os.getenv('POSTGRES_DB')}"
+
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

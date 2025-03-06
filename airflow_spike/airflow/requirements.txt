@@ -4,7 +4,7 @@ uvicorn
 
 # PostgreSQL Database ORM
 sqlalchemy
-psycopg2
+psycopg2-binary
 
 # Machine Learning & Data Processing
 pandas
@@ -12,7 +12,7 @@ numpy
 scikit-learn
 
 # Airflow (Pinning version for stability)
-apache-airflow==2.6.3
+apache-airflow
 apache-airflow-providers-postgres
 apache-airflow-providers-http
 
