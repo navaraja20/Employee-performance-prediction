@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  db:
+    build: ./docker/database
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: employee_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./docker/fastapi
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://admin:password@db:5432/employee_db
+
+  frontend:
+    build: ./docker/streamlit
+    restart: always
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
+
+  airflow:
+    build: ./docker/airflow
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - backend
+
+volumes:
+  postgres_data:

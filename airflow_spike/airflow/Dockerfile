@@ -1,15 +1,25 @@
-FROM apache/airflow:2.5.0
-
-WORKDIR /opt/airflow
+FROM apache/airflow:2.5.1
 
 # Install necessary dependencies
 RUN pip install psycopg2-binary
+RUN pip install great_expectations
 
-# Copy the DAGs directory correctly
-COPY ./airflow_spike/airflow/dags /opt/airflow/dags
+USER root
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements file correctly
-COPY ./airflow_spike/airflow/requirements.txt /opt/airflow/requirements.txt
+USER airflow
+
+WORKDIR /opt/airflow
+COPY dags /opt/airflow/dags
+COPY requirements.txt .
 
 # Install Python dependencies for Airflow
-RUN pip install -r /opt/airflow/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set Airflow to use PostgreSQL instead of SQLite
+ENV AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow_db
+ENV AIRFLOW__CORE__EXECUTOR=LocalExecutor
+ENV AIRFLOW__CORE__LOAD_EXAMPLES=False
+
+CMD ["bash", "-c", "airflow db upgrade && airflow webserver & airflow scheduler"]
+
