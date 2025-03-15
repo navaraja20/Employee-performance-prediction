@@ -3,69 +3,6 @@
 📌 A Machine Learning-powered web application to predict employee performance based on various factors like job role, experience, compensation, and satisfaction.
 This project integrates Streamlit (Frontend), FastAPI (Backend API), PostgreSQL (Database), and Apache Airflow (Workflow Orchestration).
 
-📌 Project Structure
-pgsql
-
-Employee-performance-prediction/
-│── airflow/                     <-- 📌 Airflow DAGs, configurations, and plugins
-│    ├── dags/                   <-- ✅ DAGs (Airflow tasks)
-│    │    ├── data_ingestion.py   <-- Data ingestion DAG
-│    │    ├── model_training.py   <-- Model training DAG
-│    │    ├── prediction_job.py   <-- Prediction DAG
-│    ├── config/                  <-- ✅ Airflow configurations
-│    │    ├── airflow.cfg         <-- Airflow configuration file
-│    ├── logs/                    <-- ✅ Airflow logs
-│    ├── plugins/                 <-- ✅ Custom Airflow plugins (if needed)
-│    ├── requirements.txt         <-- Python dependencies for Airflow
-│
-│── backend/                      <-- 📌 FastAPI backend service
-│    ├── app/                     <-- ✅ FastAPI app
-│    │    ├── main.py             <-- FastAPI app entry point
-│    │    ├── models.py           <-- Database models (SQLAlchemy)
-│    │    ├── routes.py           <-- API routes
-│    │    ├── database.py         <-- Database connection
-│    │    ├── prediction.py       <-- ML model integration
-│    │    ├── dependencies.py     <-- Utility functions
-│    ├── tests/                   <-- ✅ Backend tests
-│    │    ├── test_api.py         <-- API test cases
-│    ├── requirements.txt         <-- Python dependencies for FastAPI
-│    ├── Dockerfile               <-- Dockerfile for FastAPI
-│
-│── database/                     <-- 📌 Database setup
-│    ├── init.sql                 <-- ✅ SQL script to initialize tables
-│    ├── backup.sql               <-- (optional) Database backup file
-│    ├── docker-compose.override.yml  <-- (optional) Custom DB overrides
-│
-│── data/                         <-- 📌 Data storage
-│    ├── raw/                     <-- ✅ Raw data
-│    │    ├── employees.csv       <-- Example raw data file
-│    ├── processed/               <-- ✅ Processed data
-│    ├── models/                  <-- ✅ Trained ML models
-│    │    ├── model.pkl           <-- Pickle file of ML model
-│    ├── predictions/             <-- ✅ Predictions storage
-│
-│── streamlit/                    <-- 📌 Streamlit web app
-│    ├── app.py                   <-- Streamlit UI
-│    ├── requirements.txt         <-- Dependencies for Streamlit
-│    ├── Dockerfile               <-- Dockerfile for Streamlit
-│
-│── docker/                       <-- 📌 Docker-related configurations
-│    ├── airflow/                 <-- Airflow Docker setup
-│    │    ├── Dockerfile          <-- Airflow Dockerfile
-│    ├── fastapi/                 <-- FastAPI Docker setup
-│    │    ├── Dockerfile          <-- FastAPI Dockerfile
-│    ├── streamlit/               <-- Streamlit Docker setup
-│    │    ├── Dockerfile          <-- Streamlit Dockerfile
-│    ├── database/                <-- PostgreSQL setup
-│    │    ├── Dockerfile          <-- PostgreSQL Dockerfile (if needed)
-│
-│── .env                           <-- Environment variables
-│── .gitignore                      <-- Git ignore file
-│── docker-compose.yml              <-- Main Docker Compose file
-│── README.md                       <-- Project documentation
-
-🚀 Technologies Used
-
 Component	Technology
 Frontend  -	Streamlit
 Backend	  -  FastAPI
