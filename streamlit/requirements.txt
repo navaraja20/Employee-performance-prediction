@@ -1,9 +1,0 @@
-streamlit
-pandas
-numpy
-matplotlib
-seaborn
-scikit-learn
-sqlalchemy
-psycopg2-binary
-requests
