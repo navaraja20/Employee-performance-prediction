@@ -169,3 +169,4 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+pycache/ *.pyc *.pyo .pyd .Python env/ .egg-info/ .venv/ venv/ .log airflow/good_data/airflow/bad_data/airflow/raw_data/*.csv *.sqlite .DS_Store *.ipynb_checkpoints/ airflow/airflow.db airflow/logs/ airflow/plugins/ *.html

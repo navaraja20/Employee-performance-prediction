@@ -1,0 +1,60 @@
+{
+     "dashboard": {
+       "id": null,
+       "uid": "data_quality_dashboard",
+       "title": "Data Quality Dashboard",
+       "panels": [
+         {
+           "id": 1,
+           "title": "% Invalid vs Valid Data",
+           "type": "timeseries",
+           "targets": [
+             {
+               "rawSql": "SELECT timestamp, (nb_invalid_rows::float / nb_rows) * 100 as invalid_percentage FROM data_quality_stats WHERE timestamp >= NOW() - INTERVAL '10 minutes'",
+               "refId": "A"
+             }
+           ],
+           "thresholds": [
+             { "value": 10, "color": "green" },
+             { "value": 50, "color": "orange" },
+             { "value": 100, "color": "red" }
+           ]
+         },
+         {
+           "id": 2,
+           "title": "Number of Errors by Type",
+           "type": "barchart",
+           "targets": [
+             {
+               "rawSql": "SELECT unnest(errors) as error_type, COUNT(*) as count FROM data_quality_stats WHERE timestamp >= NOW() - INTERVAL '10 minutes' GROUP BY error_type",
+               "refId": "A"
+             }
+           ]
+         },
+         {
+           "id": 3,
+           "title": "Number of Files Processed",
+           "type": "timeseries",
+           "targets": [
+             {
+               "rawSql": "SELECT timestamp, nb_rows FROM data_quality_stats WHERE timestamp >= NOW() - INTERVAL '10 minutes'",
+               "refId": "A"
+             }
+           ]
+         },
+         {
+           "id": 4,
+           "title": "Error Criticality Count",
+           "type": "piechart",
+           "targets": [
+             {
+               "rawSql": "SELECT criticality, COUNT(*) as count FROM data_quality_stats WHERE timestamp >= NOW() - INTERVAL '10 minutes' GROUP BY criticality",
+               "refId": "A"
+             }
+           ]
+         }
+       ],
+       "schemaVersion": 36,
+       "version": 0
+     }
+   }

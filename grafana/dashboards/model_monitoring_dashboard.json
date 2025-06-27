@@ -1,0 +1,61 @@
+{
+     "dashboard": {
+       "id": null,
+       "uid": "model_monitoring_dashboard",
+       "title": "Model Monitoring Dashboard",
+       "panels": [
+         {
+           "id": 1,
+           "title": "Average Predictions",
+           "type": "timeseries",
+           "targets": [
+             {
+               "rawSql": "SELECT timestamp, AVG(prediction) as avg_prediction FROM predictions WHERE timestamp >= NOW() - INTERVAL '10 minutes' GROUP BY timestamp",
+               "refId": "A"
+             }
+           ],
+           "thresholds": [
+             { "value": 0, "color": "red" }
+           ]
+         },
+         {
+           "id": 2,
+           "title": "Histogram of Predicted Classes",
+           "type": "barchart",
+           "targets": [
+             {
+               "rawSql": "SELECT prediction, COUNT(*) as count FROM predictions WHERE timestamp >= NOW() - INTERVAL '30 minutes' GROUP BY prediction",
+               "refId": "A"
+             }
+           ]
+         },
+         {
+           "id": 3,
+           "title": "Data Drift in Age",
+           "type": "gauge",
+           "targets": [
+             {
+               "rawSql": "SELECT AVG(features->>'Age') as avg_age FROM predictions WHERE timestamp >= NOW() - INTERVAL '10 minutes'",
+               "refId": "A"
+             }
+           ],
+           "thresholds": [
+             { "value": 45, "color": "green" }
+           ]
+         },
+         {
+           "id": 4,
+           "title": "Prediction Source Distribution",
+           "type": "piechart",
+           "targets": [
+             {
+               "rawSql": "SELECT source, COUNT(*) as count FROM predictions WHERE timestamp >= NOW() - INTERVAL '10 minutes' GROUP BY source",
+               "refId": "A"
+             }
+           ]
+         }
+       ],
+       "schemaVersion": 36,
+       "version": 0
+     }
+   }
