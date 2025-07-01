@@ -34,7 +34,7 @@ def validate_data(file_path, good_data_path, bad_data_path, report_path):
     }
 
     # Save stats to PostgreSQL
-    engine = create_engine("postgresql+psycopg2://user:password@postgres:5432/employee_db")
+    engine = create_engine("postgresql+psycopg2://user1:password@postgres:5433/employee_db")
     pd.DataFrame([stats]).to_sql('data_quality_stats', engine, if_exists='append', index=False)
 
     # Save HTML report

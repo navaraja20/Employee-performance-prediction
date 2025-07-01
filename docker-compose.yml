@@ -1,74 +1,95 @@
+version: '3.8'
 services:
-     postgres:
-       image: postgres:13
-       environment:
-         POSTGRES_USER: user
-         POSTGRES_PASSWORD: password
-         POSTGRES_DB: employee_db
-       volumes:
-         - postgres_data:/var/lib/postgresql/data
-       ports:
-         - "5432:5432"
-     pgadmin:
-       image: dpage/pgadmin4
-       environment:
-         PGADMIN_DEFAULT_EMAIL: admin@admin.com
-         PGADMIN_DEFAULT_PASSWORD: admin
-       ports:
-         - "5050:80"
-       depends_on:
-         - postgres
-     airflow:
-       build:
-         context: ./airflow
-         dockerfile: Dockerfile
-       environment:
-         AIRFLOW__CORE__EXECUTOR: LocalExecutor
-         AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://user:password@postgres:5432/employee_db
-       volumes:
-         - ./airflow/dags:/opt/airflow/dags
-         - ./airflow/scripts:/opt/airflow/scripts
-         - ./airflow/good_data:/opt/airflow/good_data
-         - ./airflow/bad_data:/opt/airflow/bad_data
-         - ./airflow/raw_data:/opt/airflow/raw_data
-         - ./airflow/reports:/opt/airflow/reports
-       ports:
-         - "8080:8080"
-       command: >
-         bash -c "airflow db init && airflow scheduler & airflow webserver"
-       depends_on:
-         - postgres
-     grafana:
-       image: grafana/grafana:9.0.0
-       ports:
-         - "3001:3000"
-       volumes:
-         - grafana_data:/var/lib/grafana
-         - ./grafana/provisioning:/etc/grafana/provisioning
-         - ./grafana/dashboards:/var/lib/grafana/dashboards
-       environment:
-         GF_SECURITY_ADMIN_USER: admin
-         GF_SECURITY_ADMIN_PASSWORD: admin
-       depends_on:
-         - postgres
-     api:
-       build:
-         context: ./api
-         dockerfile: Dockerfile
-       ports:
-         - "8000:8000"
-       depends_on:
-         - postgres
-       volumes:
-         - ./api/models:/app/models
-     webapp:
-       build:
-         context: ./webapp
-         dockerfile: Dockerfile
-       ports:
-         - "8501:8501"
-       depends_on:
-         - api
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: employee_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"  # Changed to avoid conflict
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+  airflow:
+    image: apache/airflow:2.7.0
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://user:password@postgres:5432/employee_db
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/scripts:/opt/airflow/scripts
+      - ./airflow/raw_data:/opt/airflow/raw_data
+      - ./airflow/good_data:/opt/airflow/good_data
+      - ./airflow/bad_data:/opt/airflow/bad_data
+      - ./airflow/reports:/opt/airflow/reports
+      - ./airflow/requirements.txt:/opt/airflow/requirements.txt
+    ports:
+      - "8080:8080"
+    command: >
+     bash -c "pip install -r /opt/airflow/requirements.txt &&
+           airflow db init &&
+           airflow users create --username admin --password admin --firstname Admin --lastname Admin --role Admin --email admin@example.com &&
+           airflow scheduler & airflow webserver"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3001:3000"  # Changed to avoid conflict
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"  # Changed to avoid conflict
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+  webapp:
+    build:
+      context: ./webapp
+      dockerfile: Dockerfile
+    ports:
+      - "8502:8501"  # Changed to avoid conflict
+    depends_on:
+      - api
+    networks:
+      - app-network
 volumes:
-     postgres_data:
-     grafana_data:
+  postgres_data:
+networks:
+  app-network:
+    driver: bridge

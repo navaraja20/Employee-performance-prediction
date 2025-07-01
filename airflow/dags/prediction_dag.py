@@ -31,7 +31,7 @@ def make_predictions(ti):
        for file in files:
            df = pd.read_csv(os.path.join('/opt/airflow/good_data', file))
            data = df.to_dict(orient='records')
-           response = requests.post("http://api:8000/predict", json=data, params={"source": "scheduled"})
+           response = requests.post("http://api:8001/predict", json=data, params={"source": "scheduled"})
            if response.status_code != 200:
                raise Exception("Prediction failed")
 

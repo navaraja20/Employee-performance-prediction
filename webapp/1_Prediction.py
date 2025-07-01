@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 
-API_URL = "http://api:8000"
+API_URL = "http://api:8001"
 
 def predict_single(data):
        response = requests.post(f"{API_URL}/predict", json=data)

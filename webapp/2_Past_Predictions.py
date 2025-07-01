@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import datetime
 
-API_URL = "http://api:8000"
+API_URL = "http://api:8001"
 
 def get_past_predictions(start_date, end_date, source):
        response = requests.get(f"{API_URL}/past-predictions", params={"start_date": start_date, "end_date": end_date, "source": source})
