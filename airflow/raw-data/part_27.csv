@@ -1,0 +1,11 @@
+Age,Attrition,BusinessTravel,DailyRate,Department,DistanceFromHome,Education,EducationField,EmployeeCount,EmployeeNumber,EnvironmentSatisfaction,HourlyRate,JobInvolvement,JobLevel,JobRole,JobSatisfaction,MaritalStatus,MonthlyIncome,MonthlyRate,NumCompaniesWorked,Over18,OverTime,PercentSalaryHike,PerformanceRating,RelationshipSatisfaction,StandardHours,StockOptionLevel,TotalWorkingYears,TrainingTimesLastYear,WorkLifeBalance,YearsAtCompany,YearsInCurrentRole,YearsSinceLastPromotion,YearsWithCurrManager
+32.0,No,Travel_Frequently,1311,Research & Development,7,3,Life Sciences,1,359,2,100,4,1,Laboratory Technician,2,Married,2794,26062,1,Y,No,20,4,3,80,0,5,3,1,5,1,0,3
+38.0,No,Non-Travel,1327,Sales,2,2,Life Sciences,1,361,4,39,2,2,Sales Executive,4,Married,5249,19682,3,Y,No,18,3,4,80,1,13,0,3,8,7,7,5
+32.0,No,Travel_Rarely,128,Research & Development,2,1,Technical Degree,1,362,4,84,2,2,Laboratory Technician,1,Single,2176,19737,4,Y,No,13,3,4,80,0,9,5,3,6,2,0,4
+46.0,No,Travel_Rarely,488,Sales,2,3,Technical Degree,1,363,3,75,1,4,Manager,2,Married,16872,14977,3,Y,Yes,12,3,2,80,1,28,2,2,7,7,7,7
+28.0,Yes,Travel_Rarely,529,Research & Development,2,4,Life Sciences,1,364,1,79,3,1,Laboratory Technician,3,Single,3485,14935,2,Y,No,11,3,3,80,0,5,5,1,0,0,0,0
+29.0,No,Travel_Rarely,1210,Sales,2,3,Medical,1,366,1,78,2,2,Sales Executive,2,Married,6644,3687,2,Y,No,19,3,2,80,2,10,2,3,0,0,0,0
+31.0,No,Travel_Rarely,1463,Research & Development,23,3,Medical,1,367,2,64,2,2,Healthcare Representative,4,Married,5582,14408,0,Y,No,21,4,2,80,1,10,2,3,9,0,7,8
+25.0,No,Non-Travel,675,Research & Development,5,2,Life Sciences,1,369,2,85,4,2,Healthcare Representative,1,Divorced,4000,18384,1,Y,No,12,3,4,80,2,6,2,3,6,3,1,5
+45.0,No,Travel_Rarely,1385,Research & Development,20,2,Medical,1,372,3,79,3,4,Healthcare Representative,4,Married,13496,7501,0,Y,Yes,14,3,2,80,0,21,2,3,20,7,4,10
+36.0,No,Travel_Rarely,1403,Research & Development,6,3,Life Sciences,1,373,4,47,3,1,Laboratory Technician,4,Married,3210,20251,0,Y,No,11,3,3,80,1,16,4,3,15,13,10,11

@@ -1,0 +1,11 @@
+Age,Attrition,BusinessTravel,DailyRate,Department,DistanceFromHome,Education,EducationField,EmployeeCount,EmployeeNumber,EnvironmentSatisfaction,HourlyRate,JobInvolvement,JobLevel,JobRole,JobSatisfaction,MaritalStatus,MonthlyIncome,MonthlyRate,NumCompaniesWorked,Over18,OverTime,PercentSalaryHike,PerformanceRating,RelationshipSatisfaction,StandardHours,StockOptionLevel,TotalWorkingYears,TrainingTimesLastYear,WorkLifeBalance,YearsAtCompany,YearsInCurrentRole,YearsSinceLastPromotion,YearsWithCurrManager
+27.0,No,Travel_Rarely,1377,Sales,2,3,Life Sciences,1,437,4,74,3,2,Sales Executive,3,Single,4478,5242,1,Y,Yes,11,3,1,80,0,5,3,3,5,4,0,4
+31.0,No,Travel_Rarely,691,Sales,7,3,Marketing,1,438,4,73,3,2,Sales Executive,4,Divorced,7547,7143,4,Y,No,12,3,4,80,3,13,3,3,7,7,1,7
+32.0,No,Travel_Rarely,1018,Research & Development,2,4,Medical,1,439,1,74,4,2,Research Scientist,4,Single,5055,10557,7,Y,No,16,3,3,80,0,10,0,2,7,7,0,7
+28.0,Yes,Travel_Rarely,1157,Research & Development,2,4,Medical,1,440,1,84,1,1,Research Scientist,4,Married,3464,24737,5,Y,Yes,13,3,4,80,0,5,4,2,3,2,2,2
+30.0,No,Travel_Rarely,1275,Research & Development,28,2,Medical,1,441,4,64,3,2,Research Scientist,4,Married,5775,11934,1,Y,No,13,3,4,80,2,11,2,3,10,8,1,9
+31.0,No,Travel_Frequently,798,Research & Development,7,2,Life Sciences,1,442,3,48,2,3,Manufacturing Director,3,Married,8943,14034,1,Y,No,24,4,1,80,1,10,2,3,10,9,8,9
+39.0,No,Travel_Frequently,672,Research & Development,7,2,Medical,1,444,3,54,2,5,Manager,4,Married,19272,21141,1,Y,No,15,3,1,80,1,21,2,3,21,9,13,3
+39.0,Yes,Travel_Rarely,1162,Sales,3,2,Medical,1,445,4,41,3,2,Sales Executive,3,Married,5238,17778,4,Y,Yes,18,3,1,80,0,12,3,2,1,0,0,0
+33.0,No,Travel_Frequently,508,Sales,10,3,Marketing,1,446,2,46,2,2,Sales Executive,4,Single,4682,4317,3,Y,No,14,3,3,80,0,9,6,2,7,7,0,1
+47.0,No,Travel_Rarely,1482,Research & Development,5,5,Life Sciences,1,447,4,42,3,5,Research Director,3,Married,18300,16375,4,Y,No,11,3,2,80,1,21,2,3,3,2,1,1

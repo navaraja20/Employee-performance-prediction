@@ -1,0 +1,11 @@
+Age,Attrition,BusinessTravel,DailyRate,Department,DistanceFromHome,Education,EducationField,EmployeeCount,EmployeeNumber,EnvironmentSatisfaction,HourlyRate,JobInvolvement,JobLevel,JobRole,JobSatisfaction,MaritalStatus,MonthlyIncome,MonthlyRate,NumCompaniesWorked,Over18,OverTime,PercentSalaryHike,PerformanceRating,RelationshipSatisfaction,StandardHours,StockOptionLevel,TotalWorkingYears,TrainingTimesLastYear,WorkLifeBalance,YearsAtCompany,YearsInCurrentRole,YearsSinceLastPromotion,YearsWithCurrManager
+27.0,No,Travel_Frequently,591,Research & Development,2,3,Medical,1,1648,4,87,3,1,Research Scientist,4,Single,2580,6297,2,Y,No,13,3,3,80,0,6,0,2,4,2,1,2
+40.0,Yes,Travel_Rarely,1329,Research & Development,7,3,Life Sciences,1,1649,1,73,3,1,Laboratory Technician,1,Single,2166,3339,3,Y,Yes,14,3,2,80,0,10,3,1,4,2,0,3
+29.0,No,Travel_Rarely,469,Sales,10,3,Medical,1,1650,3,42,2,2,Sales Executive,3,Single,5869,23413,9,Y,No,11,3,3,80,0,8,2,3,5,2,1,4
+36.0,No,Travel_Rarely,711,Research & Development,5,4,Life Sciences,1,1651,2,42,3,3,Healthcare Representative,1,Married,8008,22792,4,Y,No,12,3,3,80,2,9,6,3,3,2,0,2
+25.0,No,Travel_Frequently,772,Research & Development,2,1,Life Sciences,1,1653,4,77,4,2,Manufacturing Director,3,Divorced,5206,4973,1,Y,No,17,3,3,80,2,7,6,3,7,7,0,7
+39.0,No,Travel_Rarely,492,Research & Development,12,3,Medical,1,1654,4,66,3,2,Manufacturing Director,2,Married,5295,7693,4,Y,No,21,4,3,80,0,7,3,3,5,4,1,0
+49.0,No,Travel_Rarely,301,Research & Development,22,4,Other,1,1655,1,72,3,4,Research Director,2,Married,16413,3498,3,Y,No,16,3,2,80,2,27,2,3,4,2,1,2
+50.0,No,Travel_Rarely,813,Research & Development,17,5,Life Sciences,1,1656,4,50,2,3,Research Director,1,Divorced,13269,21981,5,Y,No,15,3,3,80,3,19,3,3,14,11,1,11
+20.0,No,Travel_Rarely,1141,Sales,2,3,Medical,1,1657,3,31,3,1,Sales Representative,3,Single,2783,13251,1,Y,No,19,3,1,80,0,2,3,3,2,2,2,2
+34.0,No,Travel_Rarely,1130,Research & Development,3,3,Life Sciences,1,1658,4,66,3,2,Research Scientist,2,Divorced,5433,19332,1,Y,No,12,3,3,80,1,11,2,3,11,8,7,9

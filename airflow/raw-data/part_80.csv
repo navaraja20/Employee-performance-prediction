@@ -1,0 +1,11 @@
+Age,Attrition,BusinessTravel,DailyRate,Department,DistanceFromHome,Education,EducationField,EmployeeCount,EmployeeNumber,EnvironmentSatisfaction,HourlyRate,JobInvolvement,JobLevel,JobRole,JobSatisfaction,MaritalStatus,MonthlyIncome,MonthlyRate,NumCompaniesWorked,Over18,OverTime,PercentSalaryHike,PerformanceRating,RelationshipSatisfaction,StandardHours,StockOptionLevel,TotalWorkingYears,TrainingTimesLastYear,WorkLifeBalance,YearsAtCompany,YearsInCurrentRole,YearsSinceLastPromotion,YearsWithCurrManager
+33.0,No,Travel_Rarely,654,Research & Development,5,3,Life Sciences,1,1099,4,34,2,3,Healthcare Representative,4,Divorced,7119,21214,4,Y,No,15,3,3,80,1,9,2,3,3,2,1,2
+35.0,Yes,Travel_Rarely,1204,Sales,4,3,Technical Degree,1,1100,4,86,3,3,Sales Executive,1,Single,9582,10333,0,Y,Yes,22,4,1,80,0,9,2,3,8,7,4,7
+33.0,Yes,Travel_Frequently,827,Research & Development,29,4,Medical,1,1101,1,54,2,2,Research Scientist,3,Single,4508,3129,1,Y,No,22,4,2,80,0,14,4,3,13,7,3,8
+28.0,No,Travel_Rarely,895,Research & Development,15,2,Life Sciences,1,1102,1,50,3,1,Laboratory Technician,3,Divorced,2207,22482,1,Y,No,16,3,4,80,1,4,5,2,4,2,2,2
+34.0,No,Travel_Frequently,618,Research & Development,3,1,Life Sciences,1,1103,1,45,3,2,Healthcare Representative,4,Single,7756,22266,0,Y,No,17,3,3,80,0,7,1,2,6,2,0,4
+37.0,No,Travel_Rarely,309,Sales,10,4,Life Sciences,1,1105,4,88,2,2,Sales Executive,4,Divorced,6694,24223,2,Y,Yes,14,3,3,80,3,8,5,3,1,0,0,0
+25.0,Yes,Travel_Rarely,1219,Research & Development,4,1,Technical Degree,1,1106,4,32,3,1,Laboratory Technician,4,Married,3691,4605,1,Y,Yes,15,3,2,80,1,7,3,4,7,7,5,6
+26.0,Yes,Travel_Rarely,1330,Research & Development,21,3,Medical,1,1107,1,37,3,1,Laboratory Technician,3,Divorced,2377,19373,1,Y,No,20,4,3,80,1,1,0,2,1,1,0,0
+33.0,Yes,Travel_Rarely,1017,Research & Development,25,3,Medical,1,1108,1,55,2,1,Research Scientist,2,Single,2313,2993,4,Y,Yes,20,4,2,80,0,5,0,3,2,2,2,2
+42.0,No,Travel_Rarely,469,Research & Development,2,2,Medical,1,1109,4,35,3,4,Manager,1,Married,17665,14399,0,Y,No,17,3,4,80,1,23,3,3,22,6,13,7
