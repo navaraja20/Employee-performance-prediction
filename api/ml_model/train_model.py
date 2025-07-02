@@ -11,9 +11,14 @@ os.makedirs(output_dir, exist_ok=True)
 
 
 # Load dataset
-df = pd.read_csv("../../data/employee_data.csv")
+df = pd.read_csv("airflow/data/employee_data.csv")
+selected_features = ['Age', 'Gender', 'JobRole', 'JobSatisfaction', 'MonthlyIncome']
+
+# Target variable
 y = df["Attrition"].map({"Yes": 1, "No": 0})
-X = df.drop(columns=["Attrition", "EmployeeNumber", "Over18", "StandardHours", "EmployeeCount"])
+
+# Drop unused or non-informative columns
+X = df[selected_features].copy()
 
 # Encode categorical variables
 encoders = {}
@@ -22,17 +27,19 @@ for col in X.select_dtypes(include="object").columns:
     X[col] = le.fit_transform(X[col])
     encoders[col] = le
 
-# Scale numerical features
+# Scale numeric features
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# Train model
+# Train the model
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
-model = RandomForestClassifier()
+model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
 # Save model and preprocessors
+output_dir = os.path.dirname(__file__)
 joblib.dump(model, os.path.join(output_dir, "model.pkl"))
 joblib.dump(encoders, os.path.join(output_dir, "encoders.pkl"))
 joblib.dump(scaler, os.path.join(output_dir, "scaler.pkl"))
 
+print("✅ Model training completed and files saved.")

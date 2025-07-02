@@ -5,13 +5,18 @@ from .db import SessionLocal
 def save_prediction(dataframe, prediction):
     db = SessionLocal()
     try:
-        record = Prediction(**dataframe.iloc[0].to_dict(), PredictionResult=str(prediction))
+        # convert all values to native Python types (e.g., int, float, str)
+        input_dict = {
+            k: (v.item() if hasattr(v, 'item') else v)
+            for k, v in dataframe.iloc[0].to_dict().items()
+        }
+        record = Prediction(**input_dict, PredictionResult=int(prediction))
         db.add(record)
         db.commit()
     finally:
         db.close()
 
-def get_all_predictions():
+def get_predictions():
     db = SessionLocal()
     try:
         return db.query(Prediction).all()

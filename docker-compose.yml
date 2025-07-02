@@ -4,78 +4,102 @@ services:
   postgres:
     image: postgres:15
     container_name: postgres
-    environment:
-      POSTGRES_DB: mlops_db
-      POSTGRES_USER: mlops_user
-      POSTGRES_PASSWORD: mlops_pass
+    restart: always
+    env_file: .env
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
   api:
     build: ./api
     container_name: fastapi_service
-    ports:
-      - "8000:8000"
+    restart: always
     depends_on:
       - postgres
-    environment:
-      - DB_URL=postgresql://mlops_user:mlops_pass@postgres:5432/mlops_db
+    env_file: .env
+    ports:
+      - "8000:8000"
 
   streamlit:
     build: ./streamlit_app
     container_name: streamlit_ui
-    ports:
-      - "8501:8501"
+    restart: always
     depends_on:
       - api
+    ports:
+      - "8501:8501"
 
   airflow-webserver:
-    image: apache/airflow:2.7.1
+    build: ./airflow
     container_name: airflow_web
     restart: always
+    env_file:
+      - .env
     depends_on:
       - postgres
     environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://mlops_user:mlops_pass@postgres/mlops_db
-      - AIRFLOW__CORE__FERNET_KEY=your_fernet_key_here
-      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=False
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://mlops_user:mlops_pass@postgres/mlops_db
+      AIRFLOW__CORE__FERNET_KEY: ${FERNET_KEY}
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "False"
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/logs:/opt/airflow/logs
       - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow:/opt/airflow/custom
+      - ./raw-data:/opt/airflow/raw-data
+      - ./good_data:/opt/airflow/good_data
+      - ./bad_data:/opt/airflow/bad_data
     ports:
       - "8080:8080"
     command: webserver
 
   airflow-scheduler:
-    image: apache/airflow:2.7.1
+    build: ./airflow
     container_name: airflow_scheduler
     restart: always
+    env_file:
+      - .env
     depends_on:
       - airflow-webserver
     environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://mlops_user:mlops_pass@postgres/mlops_db
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://mlops_user:mlops_pass@postgres/mlops_db
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/logs:/opt/airflow/logs
       - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow:/opt/airflow/custom
+      - ./raw-data:/opt/airflow/raw-data
+      - ./bad_data:/opt/airflow/bad_data
+      - ./good_data:/opt/airflow/good_data
     command: scheduler
 
   grafana:
     image: grafana/grafana
     container_name: grafana
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    restart: always
     depends_on:
       - postgres
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
 
 volumes:
   pgdata:

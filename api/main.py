@@ -1,28 +1,48 @@
 # api/main.py
-from fastapi import FastAPI, HTTPException
-from models.schemas import PredictionRequest
-from database.db import SessionLocal, engine
-from database import models, crud
-from ml_model.preprocess import preprocess_input, load_model
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import pandas as pd
+from ml_model.preprocess import preprocess_input
+from ml_model.preprocess import load_model 
+from database import crud
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
-# Initialize DB
-models.Base.metadata.create_all(bind=engine)
+# Allow Streamlit to call FastAPI
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Load trained model and preprocessors
 model, encoders, scaler = load_model()
 
-@app.post("/predict")
-def predict(data: PredictionRequest):
-    try:
-        df = pd.DataFrame([data.dict()])
-        X = preprocess_input(df, encoders, scaler)
-        prediction = model.predict(X)[0]
-        crud.save_prediction(df, prediction)
-        return {"prediction": prediction, "features": df.to_dict(orient="records")}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+class PredictionRequest(BaseModel):
+    Age: int
+    Gender: str
+    JobRole: str
+    JobSatisfaction: int
+    MonthlyIncome: float
 
-@app.get("/past-predictions")
-def past_predictions():
-    return crud.get_all_predictions()
+@app.post("/predict")
+def predict(request: PredictionRequest):
+    df = pd.DataFrame([request.dict()])
+    X = preprocess_input(df, encoders, scaler)
+    prediction = model.predict(X)[0]
+    crud.save_prediction(df, prediction)
+    return {"prediction": int(prediction)}
+
+@app.get("/predictions")
+def get_past_predictions():
+    predictions = crud.get_predictions()
+    result = [p.__dict__ for p in predictions]
+    for item in result:
+        item.pop("_sa_instance_state", None)
+    return JSONResponse(content=result)
