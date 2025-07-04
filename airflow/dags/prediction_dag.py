@@ -1,56 +1,94 @@
 # airflow/dags/prediction_dag.py
+
 from airflow import DAG
-from airflow.operators.python import PythonOperator
-from datetime import datetime, timedelta
+from airflow.operators.python import PythonOperator, BranchPythonOperator
+from airflow.operators.empty import EmptyOperator
+from datetime import datetime
 import os
 import requests
+import shutil
 
-GOOD_DATA_PATH = '/opt/airflow/good_data'
-USED_LOG = '/opt/airflow/good_data/used_files.log'
+# === Paths and Config ===
+GOOD_DATA_PATH = "/opt/airflow/good_data"
+PROCESSED_DATA_PATH = "/opt/airflow/processed_data"
+API_URL = "http://api:8000/predict"
 
-def get_new_files():
-    all_files = set(os.listdir(GOOD_DATA_PATH)) - {"used_files.log"}
-    if os.path.exists(USED_LOG):
-        with open(USED_LOG, 'r') as f:
-            used = set(f.read().splitlines())
-    else:
-        used = set()
-    new_files = list(all_files - used)
-    return new_files
+os.makedirs(PROCESSED_DATA_PATH, exist_ok=True)
 
-def make_predictions():
-    import pandas as pd
-    new_files = get_new_files()
-    if not new_files:
-        return 'SKIP'
-
-    for file in new_files:
-        path = os.path.join(GOOD_DATA_PATH, file)
-        df = pd.read_csv(path)
-        for _, row in df.iterrows():
-            _ = requests.post("http://api:8000/predict", json=row.to_dict())
-
-    with open(USED_LOG, 'a') as f:
-        for file in new_files:
-            f.write(file + '\n')
-
-DEFAULT_ARGS = {
-    'owner': 'airflow',
-    'retries': 1,
-    'retry_delay': timedelta(seconds=10)
+default_args = {
+    "owner": "airflow",
+    "start_date": datetime(2025, 7, 2)
 }
 
-with DAG(
-    dag_id='prediction_dag',
-    default_args=DEFAULT_ARGS,
-    start_date=datetime(2025, 6, 1),
-    schedule_interval='*/2 * * * *',
-    catchup=False
-) as dag:
+dag = DAG(
+    dag_id="prediction_dag",
+    schedule_interval="*/2 * * * *",  # every 2 minutes
+    default_args=default_args,
+    catchup=False,
+    tags=["prediction"]
+)
 
-    predict_task = PythonOperator(
-        task_id='predict_on_new_data',
-        python_callable=make_predictions
-    )
+def check_for_new_data():
+    files = os.listdir(GOOD_DATA_PATH)
+    return "trigger_prediction" if files else "mark_skip"
 
-    predict_task
+def trigger_prediction():
+    files = os.listdir(GOOD_DATA_PATH)
+    if not files:
+        print("No files to process.")
+        return
+
+    for file in files:
+        file_path = os.path.join(GOOD_DATA_PATH, file)
+        try:
+            with open(file_path, "r") as f:
+                lines = f.read().splitlines()
+            header = lines[0].split(",")
+            values = lines[1].split(",")
+            data = dict(zip(header, values))
+
+            response = requests.post(API_URL, json=data, timeout=10)
+            if response.status_code == 200:
+                print(f"[✓] Prediction for {file}: {response.json()}")
+            else:
+                print(f"[✗] Failed for {file}: Status {response.status_code} | Response: {response.text}")
+        except Exception as e:
+            print(f"[!] Error predicting {file}: {e}")
+
+        # Move processed file to processed_data
+        try:
+            shutil.move(file_path, os.path.join(PROCESSED_DATA_PATH, file))
+            print(f"Moved {file} to processed_data/")
+        except Exception as e:
+            print(f"Failed to move {file}: {e}")
+
+def mark_skip():
+    print("No new data found. Skipping prediction.")
+
+
+# === Task Definitions ===
+
+t1 = BranchPythonOperator(
+    task_id="check_for_new_data",
+    python_callable=check_for_new_data,
+    dag=dag
+)
+
+t2 = PythonOperator(
+    task_id="trigger_prediction",
+    python_callable=trigger_prediction,
+    dag=dag
+)
+
+t3 = PythonOperator(
+    task_id="mark_skip",
+    python_callable=mark_skip,
+    dag=dag
+)
+
+end = EmptyOperator(task_id="end", dag=dag)
+
+# === DAG Flow ===
+t1 >> [t2, t3]
+t2 >> end
+t3 >> end

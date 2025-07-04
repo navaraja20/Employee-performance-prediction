@@ -1,75 +1,123 @@
 # airflow/dags/data_ingestion_dag.py
+
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from datetime import datetime, timedelta
+from datetime import datetime
 import os
 import random
+import pandas as pd
 import shutil
+import json
+from sqlalchemy import create_engine
 
-RAW_DATA_PATH = '/opt/airflow/raw-data'
-GOOD_DATA_PATH = '/opt/airflow/good_data'
-BAD_DATA_PATH = '/opt/airflow/bad_data'
+# === Paths ===
+RAW_DATA_PATH = "/opt/airflow/raw-data"
+GOOD_DATA_PATH = "/opt/airflow/good_data"
+BAD_DATA_PATH = "/opt/airflow/bad_data"
+VALIDATION_REPORT_PATH = "/opt/airflow/validation_reports"
 
-DEFAULT_ARGS = {
-    'owner': 'airflow',
-    'retries': 2,
-    'retry_delay': timedelta(seconds=10)
+os.makedirs(GOOD_DATA_PATH, exist_ok=True)
+os.makedirs(BAD_DATA_PATH, exist_ok=True)
+os.makedirs(VALIDATION_REPORT_PATH, exist_ok=True)
+
+DB_URL = os.getenv("DB_URL", "postgresql://mlops_user:mlops_pass@postgres:5432/mlops_db")
+
+default_args = {
+    "owner": "airflow",
+    "start_date": datetime(2025, 7, 2),
 }
 
-def read_data_file():
+dag = DAG(
+    dag_id="data_ingestion_dag",
+    schedule_interval="*/1 * * * *",  # every 1 minute
+    catchup=False,
+    default_args=default_args,
+    tags=["ingestion", "validation"],
+)
+
+
+def read_data(ti):
     files = os.listdir(RAW_DATA_PATH)
     if not files:
-        return None
+        raise FileNotFoundError("No data files found.")
     file = random.choice(files)
-    return os.path.join(RAW_DATA_PATH, file)
+    path = os.path.join(RAW_DATA_PATH, file)
+    ti.xcom_push(key="file_path", value=path)
 
-def validate_data(file_path: str):
-    import pandas as pd
-    from great_expectations import PandasDataset
 
-    df = pd.read_csv(file_path)
-    ge_df = PandasDataset(df)
-    ge_df.expect_column_values_to_not_be_null("Age")
-    ge_df.expect_column_values_to_be_between("Age", 18, 65)
-    ge_df.expect_column_values_to_be_in_set("Gender", ["Male", "Female"])
-    validation_result = ge_df.validate()
-    return df, validation_result
+def validate_data(ti):
+    path = ti.xcom_pull(key="file_path")
+    df = pd.read_csv(path)
 
-def save_statistics(df, result, file_path):
-    from db_operations import log_data_stats
-    log_data_stats(df, result, file_path)
+    issues = {}
+    critical = False
 
-def move_data_file(df, result, file_path):
-    if result['success']:
-        shutil.move(file_path, os.path.join(GOOD_DATA_PATH, os.path.basename(file_path)))
-    else:
-        shutil.move(file_path, os.path.join(BAD_DATA_PATH, os.path.basename(file_path)))
+    for col in df.columns:
+        if df[col].isnull().any():
+            issues[col] = "Missing values"
+            if df[col].isnull().sum() / len(df) > 0.2:
+                critical = True
 
-def alert_team():
-    from alerting import send_alert
-    send_alert("Data ingestion validation alert triggered")
+    ti.xcom_push(key="validation_issues", value=issues)
+    ti.xcom_push(key="critical", value=critical)
 
-with DAG(
-    dag_id='data_ingestion_dag',
-    default_args=DEFAULT_ARGS,
-    start_date=datetime(2025, 6, 1),
-    schedule_interval='*/1 * * * *',
-    catchup=False
-) as dag:
 
-    def ingestion_pipeline():
-        file_path = read_data_file()
-        if file_path is None:
-            return 'No file to ingest'
-        df, result = validate_data(file_path)
-        save_statistics(df, result, file_path)
-        move_data_file(df, result, file_path)
-        if not result['success']:
-            alert_team()
+def save_statistics(ti):
+    file_path = ti.xcom_pull(key="file_path")
+    issues = ti.xcom_pull(key="validation_issues")
+    critical = ti.xcom_pull(key="critical")
 
-    ingestion_task = PythonOperator(
-        task_id='ingest_and_validate_data',
-        python_callable=ingestion_pipeline
-    )
+    stats = {
+        "filename": os.path.basename(file_path),
+        "issues_found": json.dumps(issues),
+        "is_critical": critical,
+        "timestamp": datetime.utcnow().isoformat()
+    }
 
-    ingestion_task
+    engine = create_engine(DB_URL)
+    df_stats = pd.DataFrame([stats])
+    try:
+        df_stats.to_sql("validation_statistics", con=engine, if_exists="append", index=False)
+    except Exception as e:
+        print("Error saving statistics:", e)
+
+
+def send_alerts(ti):
+    path = ti.xcom_pull(key="file_path")
+    issues = ti.xcom_pull(key="validation_issues")
+    critical = ti.xcom_pull(key="critical")
+
+    report = f"Validation Report for {os.path.basename(path)}\n"
+    report += f"Issues:\n{json.dumps(issues, indent=2)}\n"
+    report += f"Critical: {critical}\n"
+
+    # Save report locally
+    with open(os.path.join(VALIDATION_REPORT_PATH, f"{os.path.basename(path)}.txt"), "w") as f:
+        f.write(report)
+
+    # Optionally send alert to Microsoft Teams
+    import requests
+    webhook_url = os.getenv("TEAMS_WEBHOOK_URL")
+    if webhook_url:
+        payload = {
+            "text": report
+        }
+        requests.post(webhook_url, json=payload)
+
+
+def split_and_save_data(ti):
+    path = ti.xcom_pull(key="file_path")
+    critical = ti.xcom_pull(key="critical")
+    destination = BAD_DATA_PATH if critical else GOOD_DATA_PATH
+    shutil.copy(path, destination)
+    print(f"Moved {os.path.basename(path)} to {destination}")
+
+
+# === Task Definitions ===
+t1 = PythonOperator(task_id="read_data", python_callable=read_data, dag=dag)
+t2 = PythonOperator(task_id="validate_data", python_callable=validate_data, dag=dag)
+t3 = PythonOperator(task_id="save_statistics", python_callable=save_statistics, dag=dag)
+t4 = PythonOperator(task_id="send_alerts", python_callable=send_alerts, dag=dag)
+t5 = PythonOperator(task_id="split_and_save_data", python_callable=split_and_save_data, dag=dag)
+
+t1 >> t2 >> [t3, t4, t5]
