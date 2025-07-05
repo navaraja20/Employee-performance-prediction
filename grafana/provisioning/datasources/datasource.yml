@@ -9,6 +9,8 @@ datasources:
     database: mlops_db
     user: mlops_user
     secureJsonData:
-      password: mlops_pass
+    password: mlops_pass
     isDefault: true
     editable: true
+    jsonData:
+      sslmode: disable
