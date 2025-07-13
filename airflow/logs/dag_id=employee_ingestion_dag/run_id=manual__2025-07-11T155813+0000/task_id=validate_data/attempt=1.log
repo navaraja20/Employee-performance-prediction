@@ -1,0 +1,55 @@
+[2025-07-11T15:58:14.856+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-07-11T15:58:14.880+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: employee_ingestion_dag.validate_data manual__2025-07-11T15:58:13+00:00 [queued]>
+[2025-07-11T15:58:14.889+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: employee_ingestion_dag.validate_data manual__2025-07-11T15:58:13+00:00 [queued]>
+[2025-07-11T15:58:14.891+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2025-07-11T15:58:14.903+0000] {taskinstance.py:2890} INFO - Executing <Task(_PythonDecoratedOperator): validate_data> on 2025-07-11 15:58:13+00:00
+[2025-07-11T15:58:14.912+0000] {warnings.py:112} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=568) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-07-11T15:58:14.913+0000] {standard_task_runner.py:72} INFO - Started process 569 to run task
+[2025-07-11T15:58:14.914+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'employee_ingestion_dag', 'validate_data', 'manual__2025-07-11T15:58:13+00:00', '--job-id', '91', '--raw', '--subdir', 'DAGS_FOLDER/ingestion_pipeline.py', '--cfg-path', '/tmp/tmpohb0jltn']
+[2025-07-11T15:58:14.915+0000] {standard_task_runner.py:105} INFO - Job 91: Subtask validate_data
+[2025-07-11T15:58:14.981+0000] {task_command.py:467} INFO - Running <TaskInstance: employee_ingestion_dag.validate_data manual__2025-07-11T15:58:13+00:00 [running]> on host 5a07e0ddeb4c
+[2025-07-11T15:58:15.077+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='employee_ingestion_dag' AIRFLOW_CTX_TASK_ID='validate_data' AIRFLOW_CTX_EXECUTION_DATE='2025-07-11T15:58:13+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-07-11T15:58:13+00:00'
+[2025-07-11T15:58:15.078+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-07-11T15:58:17.773+0000] {warnings.py:112} WARNING - /home/airflow/.local/lib/python3.12/site-packages/great_expectations/data_context/data_context/serializable_data_context.py:225: UserWarning: Warning. An existing `great_expectations.yml` was found here: /opt/airflow/gx.
+    - No action was taken.
+  warnings.warn(message)
+
+[2025-07-11T15:58:17.774+0000] {warnings.py:112} WARNING - /home/airflow/.local/lib/python3.12/site-packages/great_expectations/data_context/data_context/serializable_data_context.py:233: UserWarning: Warning. An existing `config_variables.yml` was found here: /opt/airflow/gx/uncommitted.
+    - No action was taken.
+  warnings.warn(message)
+
+[2025-07-11T15:58:17.802+0000] {file_data_context.py:222} INFO - FileDataContext loading fluent config
+[2025-07-11T15:58:17.814+0000] {config.py:187} INFO - Loading 'datasources' ->
+[{'assets': [...], 'name': 'employee_datasource', 'type': 'pandas'}]
+[2025-07-11T15:58:17.815+0000] {fluent_base_model.py:276} INFO - _PandasDataAsset.dict() - missing `config_provider`, skipping config substitution
+[2025-07-11T15:58:17.939+0000] {abstract_data_context.py:5516} INFO - Loaded 'employee_datasource' from fluent config
+[2025-07-11T15:58:17.991+0000] {file_data_context.py:174} INFO - Saving 1 Fluent Datasources to /opt/airflow/great_expectations/great_expectations.yml
+[2025-07-11T15:58:17.992+0000] {fluent_base_model.py:276} INFO - PandasDatasource.dict() - missing `config_provider`, skipping config substitution
+[2025-07-11T15:58:18.012+0000] {file_data_context.py:174} INFO - Saving 1 Fluent Datasources to /opt/airflow/great_expectations/great_expectations.yml
+[2025-07-11T15:58:18.013+0000] {fluent_base_model.py:276} INFO - CSVAsset.dict() - missing `config_provider`, skipping config substitution
+[2025-07-11T15:58:18.013+0000] {fluent_base_model.py:276} INFO - PandasDatasource.dict() - missing `config_provider`, skipping config substitution
+[2025-07-11T15:58:18.070+0000] {validator.py:1461} INFO - 	14 expectation(s) included in expectation_suite.
+[2025-07-11T15:58:18.602+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:   0%|          | 0/37 [00:00<?, ?it/s]
+[2025-07-11T15:58:18.603+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:   0%|          | 0/37 [00:00<?, ?it/s]
+[2025-07-11T15:58:18.605+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:   5%|5         | 2/37 [00:00<00:00, 1009.82it/s]
+[2025-07-11T15:58:18.976+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:   5%|5         | 2/37 [00:00<00:06,  5.37it/s]  
+[2025-07-11T15:58:18.977+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:   5%|5         | 2/37 [00:00<00:06,  5.37it/s]
+[2025-07-11T15:58:18.978+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:   8%|8         | 3/37 [00:00<00:06,  5.37it/s]
+[2025-07-11T15:58:19.240+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:   8%|8         | 3/37 [00:00<00:07,  4.58it/s]
+[2025-07-11T15:58:19.240+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:   8%|8         | 3/37 [00:00<00:07,  4.58it/s]
+[2025-07-11T15:58:19.254+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:  43%|####3     | 16/37 [00:00<00:04,  4.58it/s]
+[2025-07-11T15:58:19.449+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:  43%|####3     | 16/37 [00:00<00:00, 25.49it/s]
+[2025-07-11T15:58:19.449+0000] {logging_mixin.py:190} WARNING - Calculating Metrics:  43%|####3     | 16/37 [00:00<00:00, 25.49it/s]
+[2025-07-11T15:58:19.475+0000] {logging_mixin.py:190} WARNING - Calculating Metrics: 100%|##########| 37/37 [00:00<00:00, 25.49it/s]
+[2025-07-11T15:58:19.568+0000] {logging_mixin.py:190} WARNING - Calculating Metrics: 100%|##########| 37/37 [00:00<00:00, 59.81it/s]
+[2025-07-11T15:58:19.569+0000] {logging_mixin.py:190} WARNING - Calculating Metrics: 100%|##########| 37/37 [00:00<00:00, 59.81it/s]
+[2025-07-11T15:58:19.570+0000] {logging_mixin.py:190} WARNING - Calculating Metrics: 100%|##########| 37/37 [00:00<00:00, 59.81it/s]
+[2025-07-11T15:58:19.570+0000] {logging_mixin.py:190} WARNING - Calculating Metrics: 100%|##########| 37/37 [00:00<00:00, 38.26it/s]
+[2025-07-11T15:58:19.943+0000] {python.py:240} INFO - Done. Returned value was: {'filepath': '/opt/airflow/data/raw_data/employee_data_with_errors_chunk_2.csv', 'total_rows': 100, 'valid_rows': 89, 'invalid_rows': 11, 'criticality': 'medium', 'errors_summary': 'Age: expect_column_values_to_not_be_null failed (11)', 'error_counts': {'missing_age': 0, 'missing_monthly_income': 0, 'missing_gender': 0, 'missing_job_satisfaction': 0, 'invalid_gender': 0, 'invalid_job_role': 0, 'age_out_of_range': 0, 'income_out_of_range': 0, 'invalid_age_type': 0, 'invalid_income_type': 0, 'missing_job_role_column': 0, 'missing_Age': 11}, 'created_on': '2025-07-11T15:58:19.943422', 'bad_row_indices': [0, 9, 27, 34, 37, 39, 58, 72, 80, 86, 88]}
+[2025-07-11T15:58:19.987+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-07-11T15:58:19.988+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=employee_ingestion_dag, task_id=validate_data, run_id=manual__2025-07-11T15:58:13+00:00, execution_date=20250711T155813, start_date=20250711T155814, end_date=20250711T155819
+[2025-07-11T15:58:20.112+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-07-11T15:58:20.138+0000] {taskinstance.py:3901} INFO - 3 downstream tasks scheduled from follow-on schedule check
+[2025-07-11T15:58:20.140+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

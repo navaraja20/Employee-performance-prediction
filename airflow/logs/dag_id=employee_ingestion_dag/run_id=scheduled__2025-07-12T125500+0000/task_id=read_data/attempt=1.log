@@ -1,0 +1,20 @@
+[2025-07-12T12:56:00.467+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-07-12T12:56:00.482+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: employee_ingestion_dag.read_data scheduled__2025-07-12T12:55:00+00:00 [queued]>
+[2025-07-12T12:56:00.490+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: employee_ingestion_dag.read_data scheduled__2025-07-12T12:55:00+00:00 [queued]>
+[2025-07-12T12:56:00.491+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2025-07-12T12:56:00.503+0000] {taskinstance.py:2890} INFO - Executing <Task(_PythonDecoratedOperator): read_data> on 2025-07-12 12:55:00+00:00
+[2025-07-12T12:56:00.509+0000] {warnings.py:112} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=215) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-07-12T12:56:00.511+0000] {standard_task_runner.py:72} INFO - Started process 216 to run task
+[2025-07-12T12:56:00.512+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'employee_ingestion_dag', 'read_data', 'scheduled__2025-07-12T12:55:00+00:00', '--job-id', '17', '--raw', '--subdir', 'DAGS_FOLDER/ingestion_pipeline.py', '--cfg-path', '/tmp/tmpheqtl16t']
+[2025-07-12T12:56:00.513+0000] {standard_task_runner.py:105} INFO - Job 17: Subtask read_data
+[2025-07-12T12:56:00.568+0000] {task_command.py:467} INFO - Running <TaskInstance: employee_ingestion_dag.read_data scheduled__2025-07-12T12:55:00+00:00 [running]> on host f80ef267dd5d
+[2025-07-12T12:56:00.636+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='employee_ingestion_dag' AIRFLOW_CTX_TASK_ID='read_data' AIRFLOW_CTX_EXECUTION_DATE='2025-07-12T12:55:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-07-12T12:55:00+00:00'
+[2025-07-12T12:56:00.637+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-07-12T12:56:00.641+0000] {python.py:240} INFO - Done. Returned value was: /opt/airflow/data/raw_data/employee_data2_with_errors_chunk_15.csv
+[2025-07-12T12:56:00.663+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-07-12T12:56:00.663+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=employee_ingestion_dag, task_id=read_data, run_id=scheduled__2025-07-12T12:55:00+00:00, execution_date=20250712T125500, start_date=20250712T125600, end_date=20250712T125600
+[2025-07-12T12:56:00.726+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-07-12T12:56:00.760+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-07-12T12:56:00.762+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

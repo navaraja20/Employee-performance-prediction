@@ -1,0 +1,32 @@
+[2025-07-12T13:38:07.282+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-07-12T13:38:07.302+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: employee_ingestion_dag.send_alerts scheduled__2025-07-12T13:37:00+00:00 [queued]>
+[2025-07-12T13:38:07.310+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: employee_ingestion_dag.send_alerts scheduled__2025-07-12T13:37:00+00:00 [queued]>
+[2025-07-12T13:38:07.310+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2025-07-12T13:38:07.323+0000] {taskinstance.py:2890} INFO - Executing <Task(_PythonDecoratedOperator): send_alerts> on 2025-07-12 13:37:00+00:00
+[2025-07-12T13:38:07.330+0000] {warnings.py:112} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1049) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-07-12T13:38:07.331+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'employee_ingestion_dag', 'send_alerts', 'scheduled__2025-07-12T13:37:00+00:00', '--job-id', '206', '--raw', '--subdir', 'DAGS_FOLDER/ingestion_pipeline.py', '--cfg-path', '/tmp/tmp14yg1ma8']
+[2025-07-12T13:38:07.332+0000] {standard_task_runner.py:72} INFO - Started process 1053 to run task
+[2025-07-12T13:38:07.332+0000] {standard_task_runner.py:105} INFO - Job 206: Subtask send_alerts
+[2025-07-12T13:38:07.383+0000] {task_command.py:467} INFO - Running <TaskInstance: employee_ingestion_dag.send_alerts scheduled__2025-07-12T13:37:00+00:00 [running]> on host f80ef267dd5d
+[2025-07-12T13:38:07.472+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='employee_ingestion_dag' AIRFLOW_CTX_TASK_ID='send_alerts' AIRFLOW_CTX_EXECUTION_DATE='2025-07-12T13:37:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-07-12T13:37:00+00:00'
+[2025-07-12T13:38:07.473+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-07-12T13:38:07.482+0000] {ingestion_pipeline.py:146} WARNING - Teams webhook URL is not configured properly. Please update TEAMS_WEBHOOK_URL variable with your actual Teams webhook URL.
+[2025-07-12T13:38:07.488+0000] {ingestion_pipeline.py:219} INFO - HTML report generated: /opt/airflow/great_expectations/uncommitted/data_docs/local_site/validations/validation_report_20250712_133807.html
+[2025-07-12T13:38:07.489+0000] {ingestion_pipeline.py:258} INFO - Teams webhook not configured or using placeholder URL - alert not sent
+[2025-07-12T13:38:07.489+0000] {ingestion_pipeline.py:261} INFO - 
+            🚨 DATA VALIDATION ALERT 🚨
+            File: employee_data2_with_errors_chunk_9.csv
+            Total Rows: 2955
+            Valid Rows: 2410
+            Invalid Rows: 545
+            Criticality: MEDIUM
+            Issues: Age: 286 missing values; Gender: 285 missing values
+            Report: http://localhost:8080/static/validation_reports/validation_report_20250712_133807.html
+            
+[2025-07-12T13:38:07.489+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-07-12T13:38:07.498+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-07-12T13:38:07.499+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=employee_ingestion_dag, task_id=send_alerts, run_id=scheduled__2025-07-12T13:37:00+00:00, execution_date=20250712T133700, start_date=20250712T133807, end_date=20250712T133807
+[2025-07-12T13:38:07.546+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-07-12T13:38:07.554+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

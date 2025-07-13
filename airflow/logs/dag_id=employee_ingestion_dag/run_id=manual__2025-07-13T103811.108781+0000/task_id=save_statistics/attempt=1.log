@@ -1,0 +1,22 @@
+[2025-07-13T10:38:20.568+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-07-13T10:38:20.595+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: employee_ingestion_dag.save_statistics manual__2025-07-13T10:38:11.108781+00:00 [queued]>
+[2025-07-13T10:38:20.609+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: employee_ingestion_dag.save_statistics manual__2025-07-13T10:38:11.108781+00:00 [queued]>
+[2025-07-13T10:38:20.609+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2025-07-13T10:38:20.627+0000] {taskinstance.py:2890} INFO - Executing <Task(_PythonDecoratedOperator): save_statistics> on 2025-07-13 10:38:11.108781+00:00
+[2025-07-13T10:38:20.637+0000] {warnings.py:112} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=161) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-07-13T10:38:20.639+0000] {standard_task_runner.py:72} INFO - Started process 164 to run task
+[2025-07-13T10:38:20.642+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'employee_ingestion_dag', 'save_statistics', 'manual__2025-07-13T10:38:11.108781+00:00', '--job-id', '35', '--raw', '--subdir', 'DAGS_FOLDER/ingestion_pipeline.py', '--cfg-path', '/tmp/tmp_yw670z7']
+[2025-07-13T10:38:20.645+0000] {standard_task_runner.py:105} INFO - Job 35: Subtask save_statistics
+[2025-07-13T10:38:20.772+0000] {task_command.py:467} INFO - Running <TaskInstance: employee_ingestion_dag.save_statistics manual__2025-07-13T10:38:11.108781+00:00 [running]> on host c45a93548ada
+[2025-07-13T10:38:20.915+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='employee_ingestion_dag' AIRFLOW_CTX_TASK_ID='save_statistics' AIRFLOW_CTX_EXECUTION_DATE='2025-07-13T10:38:11.108781+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-07-13T10:38:11.108781+00:00'
+[2025-07-13T10:38:20.916+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-07-13T10:38:20.954+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-07-13T10:38:20.956+0000] {base.py:84} INFO - Retrieving connection 'processed_files_db'
+[2025-07-13T10:38:20.970+0000] {logging_mixin.py:190} INFO - Statistics saved successfully for /opt/airflow/data/raw_data/employee_data_with_errors_chunk_5.csv
+[2025-07-13T10:38:20.974+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-07-13T10:38:21.003+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-07-13T10:38:21.006+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=employee_ingestion_dag, task_id=save_statistics, run_id=manual__2025-07-13T10:38:11.108781+00:00, execution_date=20250713T103811, start_date=20250713T103820, end_date=20250713T103821
+[2025-07-13T10:38:21.060+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-07-13T10:38:21.075+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

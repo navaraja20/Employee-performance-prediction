@@ -1,0 +1,34 @@
+[2025-07-12T13:30:02.360+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-07-12T13:30:02.375+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: employee_prediction_job.make_predictions scheduled__2025-07-12T13:25:00+00:00 [queued]>
+[2025-07-12T13:30:02.381+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: employee_prediction_job.make_predictions scheduled__2025-07-12T13:25:00+00:00 [queued]>
+[2025-07-12T13:30:02.382+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2025-07-12T13:30:02.390+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): make_predictions> on 2025-07-12 13:25:00+00:00
+[2025-07-12T13:30:02.397+0000] {warnings.py:112} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=784) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-07-12T13:30:02.398+0000] {standard_task_runner.py:72} INFO - Started process 789 to run task
+[2025-07-12T13:30:02.399+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'employee_prediction_job', 'make_predictions', 'scheduled__2025-07-12T13:25:00+00:00', '--job-id', '158', '--raw', '--subdir', 'DAGS_FOLDER/prediction_job.py', '--cfg-path', '/tmp/tmp53qcqhwr']
+[2025-07-12T13:30:02.401+0000] {standard_task_runner.py:105} INFO - Job 158: Subtask make_predictions
+[2025-07-12T13:30:02.453+0000] {task_command.py:467} INFO - Running <TaskInstance: employee_prediction_job.make_predictions scheduled__2025-07-12T13:25:00+00:00 [running]> on host f80ef267dd5d
+[2025-07-12T13:30:02.696+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='employee_prediction_job' AIRFLOW_CTX_TASK_ID='make_predictions' AIRFLOW_CTX_EXECUTION_DATE='2025-07-12T13:25:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-07-12T13:25:00+00:00'
+[2025-07-12T13:30:02.697+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-07-12T13:30:02.713+0000] {logging_mixin.py:190} INFO - Processing file: /opt/airflow/data/good_data/employee_data2_with_errors_chunk_7.csv
+[2025-07-12T13:30:02.786+0000] {logging_mixin.py:190} INFO - Failed to predict for /opt/airflow/data/good_data/employee_data2_with_errors_chunk_7.csv. Status: 500, Response: {"detail":"Prediction error: could not convert string to float: 'Old'"}
+[2025-07-12T13:30:02.787+0000] {logging_mixin.py:190} INFO - Processing file: /opt/airflow/data/good_data/employee_data2_with_errors_chunk_17.csv
+[2025-07-12T13:30:02.863+0000] {logging_mixin.py:190} INFO - Failed to predict for /opt/airflow/data/good_data/employee_data2_with_errors_chunk_17.csv. Status: 500, Response: {"detail":"Prediction error: could not convert string to float: 'Young'"}
+[2025-07-12T13:30:02.863+0000] {logging_mixin.py:190} INFO - Processing file: /opt/airflow/data/good_data/employee_data2_with_errors_chunk_2.csv
+[2025-07-12T13:30:03.067+0000] {logging_mixin.py:190} INFO - Failed to predict for /opt/airflow/data/good_data/employee_data2_with_errors_chunk_2.csv. Status: 500, Response: {"detail":"Prediction error: could not convert string to float: 'Teen'"}
+[2025-07-12T13:30:03.068+0000] {logging_mixin.py:190} INFO - Processing file: /opt/airflow/data/good_data/employee_data2_with_errors_chunk_1.csv
+[2025-07-12T13:30:03.907+0000] {logging_mixin.py:190} INFO - Predictions for /opt/airflow/data/good_data/employee_data2_with_errors_chunk_1.csv completed successfully.
+[2025-07-12T13:30:03.908+0000] {logging_mixin.py:190} INFO - Processing file: /opt/airflow/data/good_data/employee_data2_with_errors_chunk_19.csv
+[2025-07-12T13:30:04.127+0000] {logging_mixin.py:190} INFO - Failed to predict for /opt/airflow/data/good_data/employee_data2_with_errors_chunk_19.csv. Status: 500, Response: {"detail":"Prediction error: could not convert string to float: 'Old'"}
+[2025-07-12T13:30:04.128+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-07-12T13:30:04.129+0000] {base.py:84} INFO - Retrieving connection 'processed_files_db'
+[2025-07-12T13:30:04.134+0000] {logging_mixin.py:190} INFO - Saved processed files: ['employee_data2_with_errors_chunk_7.csv', 'employee_data2_with_errors_chunk_17.csv', 'employee_data2_with_errors_chunk_2.csv', 'employee_data2_with_errors_chunk_1.csv', 'employee_data2_with_errors_chunk_19.csv']
+[2025-07-12T13:30:04.135+0000] {logging_mixin.py:190} INFO - Total Predictions made: 1
+[2025-07-12T13:30:04.137+0000] {python.py:240} INFO - Done. Returned value was: Predictions made for 5 files
+[2025-07-12T13:30:04.155+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-07-12T13:30:04.156+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=employee_prediction_job, task_id=make_predictions, run_id=scheduled__2025-07-12T13:25:00+00:00, execution_date=20250712T132500, start_date=20250712T133002, end_date=20250712T133004
+[2025-07-12T13:30:04.216+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-07-12T13:30:04.233+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-07-12T13:30:04.235+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

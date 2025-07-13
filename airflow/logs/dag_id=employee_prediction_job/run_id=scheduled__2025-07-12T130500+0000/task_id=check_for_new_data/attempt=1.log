@@ -1,0 +1,23 @@
+[2025-07-12T13:13:13.436+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-07-12T13:13:13.463+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: employee_prediction_job.check_for_new_data scheduled__2025-07-12T13:05:00+00:00 [queued]>
+[2025-07-12T13:13:13.472+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: employee_prediction_job.check_for_new_data scheduled__2025-07-12T13:05:00+00:00 [queued]>
+[2025-07-12T13:13:13.473+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2025-07-12T13:13:13.487+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): check_for_new_data> on 2025-07-12 13:05:00+00:00
+[2025-07-12T13:13:13.499+0000] {warnings.py:112} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=83) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-07-12T13:13:13.505+0000] {standard_task_runner.py:72} INFO - Started process 98 to run task
+[2025-07-12T13:13:13.505+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'employee_prediction_job', 'check_for_new_data', 'scheduled__2025-07-12T13:05:00+00:00', '--job-id', '58', '--raw', '--subdir', 'DAGS_FOLDER/prediction_job.py', '--cfg-path', '/tmp/tmpew1rhvhf']
+[2025-07-12T13:13:13.517+0000] {standard_task_runner.py:105} INFO - Job 58: Subtask check_for_new_data
+[2025-07-12T13:13:13.670+0000] {task_command.py:467} INFO - Running <TaskInstance: employee_prediction_job.check_for_new_data scheduled__2025-07-12T13:05:00+00:00 [running]> on host f80ef267dd5d
+[2025-07-12T13:13:13.805+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='employee_prediction_job' AIRFLOW_CTX_TASK_ID='check_for_new_data' AIRFLOW_CTX_EXECUTION_DATE='2025-07-12T13:05:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-07-12T13:05:00+00:00'
+[2025-07-12T13:13:13.808+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-07-12T13:13:13.840+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-07-12T13:13:13.841+0000] {base.py:84} INFO - Retrieving connection 'processed_files_db'
+[2025-07-12T13:13:13.854+0000] {logging_mixin.py:190} INFO - Found new files: ['employee_data_with_errors_chunk_4.csv', 'employee_data_with_errors_chunk_2.csv', 'employee_data2_with_errors_chunk_20.csv', 'test_airflow.csv', 'employee_data_with_errors_chunk_5.csv']
+[2025-07-12T13:13:13.855+0000] {python.py:240} INFO - Done. Returned value was: ['employee_data_with_errors_chunk_4.csv', 'employee_data_with_errors_chunk_2.csv', 'employee_data2_with_errors_chunk_20.csv', 'test_airflow.csv', 'employee_data_with_errors_chunk_5.csv']
+[2025-07-12T13:13:13.886+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-07-12T13:13:13.887+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=employee_prediction_job, task_id=check_for_new_data, run_id=scheduled__2025-07-12T13:05:00+00:00, execution_date=20250712T130500, start_date=20250712T131313, end_date=20250712T131313
+[2025-07-12T13:13:13.969+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-07-12T13:13:13.988+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-07-12T13:13:13.992+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

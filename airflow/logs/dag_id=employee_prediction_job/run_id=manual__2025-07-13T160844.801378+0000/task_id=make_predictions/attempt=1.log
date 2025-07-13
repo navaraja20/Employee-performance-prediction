@@ -1,0 +1,25 @@
+[2025-07-13T16:08:48.199+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-07-13T16:08:48.226+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: employee_prediction_job.make_predictions manual__2025-07-13T16:08:44.801378+00:00 [queued]>
+[2025-07-13T16:08:48.236+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: employee_prediction_job.make_predictions manual__2025-07-13T16:08:44.801378+00:00 [queued]>
+[2025-07-13T16:08:48.237+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2025-07-13T16:08:48.249+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): make_predictions> on 2025-07-13 16:08:44.801378+00:00
+[2025-07-13T16:08:48.257+0000] {warnings.py:112} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=746) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-07-13T16:08:48.259+0000] {standard_task_runner.py:72} INFO - Started process 748 to run task
+[2025-07-13T16:08:48.260+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'employee_prediction_job', 'make_predictions', 'manual__2025-07-13T16:08:44.801378+00:00', '--job-id', '369', '--raw', '--subdir', 'DAGS_FOLDER/prediction_job.py', '--cfg-path', '/tmp/tmph3or5o71']
+[2025-07-13T16:08:48.262+0000] {standard_task_runner.py:105} INFO - Job 369: Subtask make_predictions
+[2025-07-13T16:08:48.584+0000] {task_command.py:467} INFO - Running <TaskInstance: employee_prediction_job.make_predictions manual__2025-07-13T16:08:44.801378+00:00 [running]> on host a0a54bfbbb9e
+[2025-07-13T16:08:48.658+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='employee_prediction_job' AIRFLOW_CTX_TASK_ID='make_predictions' AIRFLOW_CTX_EXECUTION_DATE='2025-07-13T16:08:44.801378+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-07-13T16:08:44.801378+00:00'
+[2025-07-13T16:08:48.659+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-07-13T16:08:48.678+0000] {logging_mixin.py:190} INFO - Processing file: /opt/airflow/data/good_data/test_multiple_predictions.csv
+[2025-07-13T16:08:48.695+0000] {logging_mixin.py:190} INFO - File /opt/airflow/data/good_data/test_multiple_predictions.csv is missing required columns: ['Job Role', 'Monthly Income', 'Job Satisfaction']
+[2025-07-13T16:08:48.696+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-07-13T16:08:48.697+0000] {base.py:84} INFO - Retrieving connection 'processed_files_db'
+[2025-07-13T16:08:48.706+0000] {logging_mixin.py:190} INFO - Saved processed files: ['test_multiple_predictions.csv']
+[2025-07-13T16:08:48.707+0000] {python.py:240} INFO - Done. Returned value was: Predictions made for 1 files
+[2025-07-13T16:08:48.731+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-07-13T16:08:48.731+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=employee_prediction_job, task_id=make_predictions, run_id=manual__2025-07-13T16:08:44.801378+00:00, execution_date=20250713T160844, start_date=20250713T160848, end_date=20250713T160848
+[2025-07-13T16:08:48.795+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-07-13T16:08:48.816+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-07-13T16:08:48.826+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
