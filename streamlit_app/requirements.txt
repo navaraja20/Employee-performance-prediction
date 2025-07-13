@@ -1,4 +1,0 @@
-# streamlit_app/requirements.txt
-streamlit
-pandas
-requests

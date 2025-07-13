@@ -1,4 +1,0 @@
-Validation Report for part_127.csv
-Issues:
-{}
-Critical: False
